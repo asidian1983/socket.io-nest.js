@@ -29,11 +29,14 @@ export class Seat {
   @PrimaryGeneratedColumn()
   seatId: string;
 
-  @Column({ length: 50 })
-  roomID: string;
+  @Column({ length: 45 })
+  roomId: string;
 
-  @Column({ length: 50 })
+  @Column({ length: 45 })
   playerId: string;
+
+  @Column({ length: 45 })
+  teamId: string;
 }
 
 @Entity("Team")
@@ -41,6 +44,6 @@ export class Team {
   @PrimaryGeneratedColumn()
   teamId: string;
 
-  @Column({ length: 50 })
+  @Column({ length: 45 })
   roomId: string;
 }

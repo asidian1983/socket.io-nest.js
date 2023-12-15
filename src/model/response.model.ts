@@ -1,15 +1,16 @@
-export type Room = {
+export type ResponseRoom = {
   roomId: string;
   roomNumber: number;
-  teamList: Team[];
+  teamList: ResponseTeam[];
 };
 
-export type Team = {
+export type ResponseTeam = {
   teamId: string;
-  seatList: Seat[];
+  seatList: ResponseSeat[];
 };
 
-export type Seat = {
+export type ResponseSeat = {
   seatId: string;
+  teamId: string;
   playerId: string;
 };

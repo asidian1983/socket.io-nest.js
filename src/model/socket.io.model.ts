@@ -23,6 +23,14 @@ export enum EventStatus {
     Success = 200,
 
     InvalidParameter = 401,
-
+    NotFoundUser = 402,
     AlreadyCreated = 411,
+    NotFoundRoom = 421,
+    AlreadyLeaved = 422,
+    IsUpdate = 423,
+    TeamIsFull = 424,
+}
+
+export enum GameConfig {
+    TeamInitMaxValue = 4,
 }
