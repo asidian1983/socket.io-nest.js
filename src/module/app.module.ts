@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { UserController } from '../controller/user.controller';
 import { UserService } from '../service/user.service';
-import { EventsModule } from '../events/events.module';
+import { EventsModule } from './events.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from '../service/db.config.service';
 import { ConfigModule } from '@nestjs/config';
 import { Player } from 'src/model/db.entity';
+import { UserController } from 'src/controller/user.controller';
 
 @Module({
   imports: [

@@ -4,7 +4,7 @@ export interface EventInterface {
     [k: string]: any;
   };
   ack: {
-    status: EventStatus;
+    status?: EventStatus;
     isError: boolean; // socket.emit()의 3번째 인자인 acknowledgement의 response값 입니다.
   };
 };

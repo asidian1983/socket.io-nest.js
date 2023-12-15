@@ -2,8 +2,9 @@ import { Logger } from '@nestjs/common';
 import { MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { UserController } from 'src/controller/user.controller';
-import { RequestSignUp } from 'src/model/request.model';
+import { RequestSignIn, RequestSignUp } from 'src/model/request.model';
 import { EventInterface, EventStatus, EventTypes } from 'src/model/socket.io.model';
+import { UserService } from 'src/service/user.service';
 
 @WebSocketGateway(8080, { transports: ['websocket'] }
   // { 
@@ -15,16 +16,14 @@ import { EventInterface, EventStatus, EventTypes } from 'src/model/socket.io.mod
 export class EventsGateway  
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-  
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('EventsGateway');
 
-  // controller
-  appController: UserController;
+  constructor(private userService: UserService) {}
 
   @SubscribeMessage('message')
   async handleEvent(@MessageBody() data: EventInterface): Promise<EventInterface> {
-    console.log(data);
+    this.logger.log(`message : ${data}`);
     return data;
   }
 
@@ -40,11 +39,16 @@ export class EventsGateway
     this.logger.log(`Client Connected : ${client.id}`);
   }
 
-  @SubscribeMessage('Socket_Client_SignUp')
+  @SubscribeMessage(EventTypes.Socket_Client_SignUp)
   async handleSignup(client: Socket, data: EventInterface): Promise<void> {
-    const param = data.data as RequestSignUp;
-    const result = await this.appController.signup(param);
+    const result = await this.userService.createPlayer(data.data as RequestSignUp);
     client.emit(EventTypes.Socket_Client_SignUp, this.handleResponse(EventTypes.Socket_Client_SignUp, result.status, result.data));
+  }
+
+  @SubscribeMessage(EventTypes.Socket_Client_SignIn)
+  async handleSignin(client: Socket, data: EventInterface): Promise<void> {
+    const result = await this.userService.findPlayer(data.data as RequestSignIn);
+    client.emit(EventTypes.Socket_Client_SignIn, this.handleResponse(EventTypes.Socket_Client_SignIn, result.status, result.data));
   }
 
   handleResponse(event: EventTypes, status: EventStatus, data: {[k: string]: any} = {}) {

@@ -6,6 +6,7 @@ import { ServiceInterface } from 'src/model/service.model';
 
 @Controller()
 export class UserController {
+
   constructor(private readonly userService: UserService) {}
 
   @Get()
@@ -15,6 +16,7 @@ export class UserController {
 
   // 가입 체크 
   async signup(data: RequestSignUp): Promise<ServiceInterface> {
+    console.log('signup start')
     // 파라미터 체크
     if (!data.playerId || !data.passwd) {
       return {
