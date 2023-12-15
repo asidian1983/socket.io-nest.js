@@ -68,7 +68,7 @@ export class EventsGateway
   @SubscribeMessage(EventTypes.Socket_Client_SignUp)
   async handleSignup(client: Socket, data: EventInterface): Promise<void> {
     const result = await this.userService.createPlayer(data.data as RequestSignUp);
-    
+
     client.emit(EventTypes.Socket_Client_SignUp, this.handleResponse(EventTypes.Socket_Client_SignUp, result.status, result.data));
   }
 
@@ -97,7 +97,7 @@ export class EventsGateway
         client.join(result.data.room.roomId);
       }
       
-      client.emit(EventTypes.Socket_Client_SignIn, this.handleResponse(EventTypes.Socket_Client_SignIn, result.status, result.data));
+      client.emit(EventTypes.Socket_Client_CreateRoom, this.handleResponse(EventTypes.Socket_Client_CreateRoom, result.status, result.data));
     }
   }
 
