@@ -10,13 +10,14 @@ export interface EventInterface {
 };
 
 export enum EventTypes {
-  Socket_Client_SignUp = 'Socket_Client_SignUp', // 유저 생성
-  Socket_Client_SignIn = 'Socket_Client_SignIn', // 유저 접속
-  Socket_Client_CreateRoom = 'Socket_Client_CreateRoom', // 방 생성
-  Socket_Server_UpdateRoom = 'Socket_Server_UpdateRoom', // 방 정보 갱신
-  Socket_Client_JoinRoom = 'Socket_Client_JoinRoom', // 방 접속
-  Socket_Client_LeaveRoom = 'Socket_Client_LeaveRoom', // 방 나감
-  Socket_Client_ChangeTeam = 'Socket_Client_ChangeTeam', // 팀 변경
+    Socket_Client_ClearDatabase = 'Socket_Client_ClearDatabase', // DB 초기화
+    Socket_Client_SignUp = 'Socket_Client_SignUp', // 유저 생성
+    Socket_Client_SignIn = 'Socket_Client_SignIn', // 유저 접속
+    Socket_Client_CreateRoom = 'Socket_Client_CreateRoom', // 방 생성
+    Socket_Server_UpdateRoom = 'Socket_Server_UpdateRoom', // 방 정보 갱신
+    Socket_Client_JoinRoom = 'Socket_Client_JoinRoom', // 방 접속
+    Socket_Client_LeaveRoom = 'Socket_Client_LeaveRoom', // 방 나감
+    Socket_Client_ChangeTeam = 'Socket_Client_ChangeTeam' // 팀 변경
 };
 
 export enum EventStatus {
@@ -29,6 +30,7 @@ export enum EventStatus {
     AlreadyLeaved = 422,
     IsUpdate = 423,
     TeamIsFull = 424,
+    RoomIsFull = 425,
 }
 
 export enum GameConfig {

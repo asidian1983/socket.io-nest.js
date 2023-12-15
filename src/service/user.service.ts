@@ -31,6 +31,14 @@ export class UserService {
       }
     }
 
+    const player = await this.playerRepository.findOneBy({playerId: data.playerId});
+    if (player) {
+      return {
+        status: EventStatus.AlreadyCreated,
+        data: {}
+      }  
+    }
+
     // 생성 서비스 
     return {
       status: EventStatus.Success,
@@ -47,12 +55,10 @@ export class UserService {
           data: {}
       }
     }
-    
+
     return {
       status: EventStatus.Success,
       data: await this.playerRepository.findOneBy(data)
     }
   }
-
-  //
 }

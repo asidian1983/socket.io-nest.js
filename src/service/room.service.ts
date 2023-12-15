@@ -100,7 +100,13 @@ export class RoomService {
     // 입장 시킬 팀 선정
     let teamId = "";
     let teamCur = 0;
-    if (roomInfo.teamList[0].seatList.length > roomInfo.teamList[1].seatList.length) {
+    if (roomInfo.teamList[0].seatList.length >= GameConfig.TeamInitMaxValue
+      && roomInfo.teamList[1].seatList.length >= GameConfig.TeamInitMaxValue) {
+        return {
+          status: EventStatus.RoomIsFull,
+          data: {}
+        }
+    } else if (roomInfo.teamList[0].seatList.length > roomInfo.teamList[1].seatList.length) {
       teamId = roomInfo.teamList[1].teamId;
       teamCur = 1;
     } else {

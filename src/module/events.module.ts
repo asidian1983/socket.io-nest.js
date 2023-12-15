@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from 'src/service/db.config.service';
 import { Player, Room, Seat, Team } from 'src/model/db.entity';
 import { RoomService } from 'src/service/room.service';
+import { CommonService } from 'src/service/common.service';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { RoomService } from 'src/service/room.service';
     EventsModule // socket.io 
   ],
   controllers: [UserController],
-  providers: [EventsGateway, UserService, RoomService],
+  providers: [EventsGateway, UserService, RoomService, CommonService],
 })
 export class EventsModule {}

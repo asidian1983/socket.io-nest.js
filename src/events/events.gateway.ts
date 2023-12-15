@@ -3,10 +3,12 @@ import { MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, S
 import { Server, Socket } from 'socket.io';
 import { RequestChangeTeam, RequestJoinRoom, RequestSignIn, RequestSignUp } from 'src/model/request.model';
 import { EventInterface, EventStatus, EventTypes } from 'src/model/socket.io.model';
+import { CommonService } from 'src/service/common.service';
 import { RoomService } from 'src/service/room.service';
 import { UserService } from 'src/service/user.service';
 
-@WebSocketGateway(8080, { transports: ['websocket'] }
+@WebSocketGateway(8080, 
+  { transports: ['websocket'] }
   // { 
   //   namespace: 'chat',
   //   cors: { origin: '*' },
@@ -21,7 +23,8 @@ export class EventsGateway
 
   constructor(
     private userService: UserService,
-    private roomService: RoomService
+    private roomService: RoomService,
+    private commonService: CommonService
   ) {}
 
   @SubscribeMessage('message')
@@ -53,10 +56,19 @@ export class EventsGateway
     this.logger.log(`Client Connected : ${client.id}`);
   }
 
+  // DB 초기화
+  @SubscribeMessage(EventTypes.Socket_Client_ClearDatabase)
+  async handleClearDatabase(client: Socket, data: EventInterface): Promise<void> {
+     const result = await this.commonService.clearDatabase();
+
+     client.emit(EventTypes.Socket_Client_ClearDatabase, this.handleResponse(EventTypes.Socket_Client_ClearDatabase, result.status, result.data));
+  }
+
   // 플레이어 추가
   @SubscribeMessage(EventTypes.Socket_Client_SignUp)
   async handleSignup(client: Socket, data: EventInterface): Promise<void> {
     const result = await this.userService.createPlayer(data.data as RequestSignUp);
+    
     client.emit(EventTypes.Socket_Client_SignUp, this.handleResponse(EventTypes.Socket_Client_SignUp, result.status, result.data));
   }
 
